@@ -1,5 +1,50 @@
 Option Explicit
 
+Function AVECELLS(InputRange As Range) As Double
+    Dim SUMCELLS As Double, CELLCOUNT As Long
+    Dim Arr() As Variant
+    Dim R As Long
+    Dim C As Long
+
+    ' Transfer the InputRange to the Arr Single or MultiDim Array Holder
+    Arr = InputRange
+
+    ' Monitors the Sum of the Cells within the selected range.
+    SUMCELLS = 0
+
+    ' Counts the cells that have values
+    CELLCOUNT = 0
+    
+    ' Loops through first dimension (rows)
+    For R = 1 To UBound(Arr, 1)
+
+        ' Loops through second dimension (columns)
+        For C = 1 To UBound(Arr, 2)
+            
+            ' Converst the cell contents into trimmed string.
+            Dim StringValue As String
+            StringValue = Trim(CStr(Arr(R, C)))
+
+            ' Check if the cell is not empty.
+            If (Not (StringValue = "")) Then
+                ' Gets the double within the cell.
+                Dim NumericValue As Double
+
+                ' Converts to numeric value.
+                NumericValue =  CDbl(ONLYDIGITS(StringValue))
+
+                ' Increments the sum
+                SUMCELLS = SUMCELLS + NumericValue
+
+                ' Increment cell count
+                CELLCOUNT = CELLCOUNT + 1
+            End If
+        Next C
+    Next R
+
+    AVECELLS = SUMCELLS / CELLCOUNT
+End Function
+
 Function SUMCELLS(InputRange As Range) As Double
     Dim Arr() As Variant
     Arr = InputRange
